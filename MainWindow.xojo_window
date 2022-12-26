@@ -17,8 +17,8 @@ Begin DesktopWindow MainWindow
    MaximumWidth    =   32000
    MenuBar         =   784400383
    MenuBarVisible  =   False
-   MinimumHeight   =   64
-   MinimumWidth    =   64
+   MinimumHeight   =   320
+   MinimumWidth    =   240
    Resizeable      =   True
    Title           =   "Color Bars"
    Type            =   0
@@ -122,8 +122,8 @@ Begin DesktopWindow MainWindow
       Left            =   541
       LockBottom      =   False
       LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
+      LockLeft        =   False
+      LockRight       =   True
       LockTop         =   True
       Multiline       =   False
       Scope           =   0
@@ -148,7 +148,7 @@ End
 	#tag Event
 		Sub Opening()
 		  ' Initialize data
-		  Self.BarColors = Array(&cde0d0d, &cff6f00, &cffd400, &c2bff00, &c0d00ff, &cff00d9)
+		  Self.BarColors = Array(Red, Orange, Yellow, Green, Blue, Magenta)
 		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60)
 		  
 		  ' Initialize VelocitySlider
@@ -164,8 +164,30 @@ End
 
 
 	#tag Method, Flags = &h0
+		Sub PaintCanvas(g As Graphics, areas() As Rect)
+		  Var colorCount As Integer = Self.BarColors.Count
+		  Var defaultBarWidth As Integer = g.Width \ colorCount
+		  Var barWidth As Integer = Math.Clamp(defaultBarWidth, Self.MinBarWidth, Self.MaxBarWidth)
+		  Var barHeight As Integer = g.Height
+		  Var barCount As Integer = Ceiling( g.Width / barWidth)
+		  
+		  ' Draw all the bars
+		  For i As Integer = 0 To barCount - 1
+		    Var colorIndex As Integer = i Mod colorCount
+		    
+		    g.DrawingColor = Self.BarColors(colorIndex)
+		    g.FillRectangle(i * barWidth, 0, barWidth, barHeight)
+		  Next i
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub SetVelocity(index As Integer)
+		  ' Lookup the FPS at index
 		  Self.Fps = Self.Velocities(index)
+		  
+		  ' Update the VelocityValueLabel text
 		  Self.VelocityValueLabel.Text = Str(Self.Fps) + " fps"
 		  
 		End Sub
@@ -185,15 +207,41 @@ End
 	#tag EndProperty
 
 
-	#tag Constant, Name = MaxBarWidth, Type = Double, Dynamic = False, Default = \"80", Scope = Public
+	#tag Constant, Name = Blue, Type = Color, Dynamic = False, Default = \"&c0d00ff", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = MinBarWidth, Type = Double, Dynamic = False, Default = \"40", Scope = Public
+	#tag Constant, Name = Green, Type = Color, Dynamic = False, Default = \"&c2bff00", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = Magenta, Type = Color, Dynamic = False, Default = \"&cff00d9", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = MaxBarWidth, Type = Double, Dynamic = False, Default = \"120", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = MinBarWidth, Type = Double, Dynamic = False, Default = \"60", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = Orange, Type = Color, Dynamic = False, Default = \"&cff6f00", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = Red, Type = Color, Dynamic = False, Default = \"&cde0d0d", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = Yellow, Type = Color, Dynamic = False, Default = \"&cffd400", Scope = Public
 	#tag EndConstant
 
 
 #tag EndWindowCode
 
+#tag Events MainCanvas
+	#tag Event
+		Sub Paint(g As Graphics, areas() As Rect)
+		  Self.PaintCanvas(g, areas)
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events VelocitySlider
 	#tag Event
 		Sub ValueChanged()
