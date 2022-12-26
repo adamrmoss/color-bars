@@ -3,28 +3,45 @@ Begin Menu MainMenuBar
    Begin DesktopMenuItem FileMenu
       SpecialMenu = 0
       Index = -2147483648
-      Text = "&File"
+      Text = "#App.FileTitle"
       AutoEnabled = True
       AutoEnable = True
       Visible = True
+      Begin DesktopMenuItem FileAbout
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "#App.FileAboutTitle"
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
       Begin DesktopQuitMenuItem FileQuit
          SpecialMenu = 0
          Index = -2147483648
-         Text = "#App.kFileQuit"
-         ShortcutKey = "#App.kFileQuitShortcut"
-         Shortcut = "#App.kFileQuitShortcut"
+         Text = "#App.FileQuitTitle"
+         ShortcutKey = "#App.FileQuitShortcut"
+         Shortcut = "Cmd+#App.FileQuitShortcut"
+         MenuModifier = True
          AutoEnabled = True
          AutoEnable = True
          Visible = True
       End
    End
-   Begin DesktopMenuItem HelpMenu
+   Begin DesktopMenuItem AnimationMenu
       SpecialMenu = 0
       Index = -2147483648
-      Text = "&Help"
+      Text = "#App.AnimationTitle"
       AutoEnabled = True
       AutoEnable = True
       Visible = True
+      Begin DesktopMenuItem Animation
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "Untitled"
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
    End
 End
 #tag EndMenu
