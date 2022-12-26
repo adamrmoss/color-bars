@@ -141,6 +141,15 @@ Begin DesktopWindow MainWindow
       Visible         =   True
       Width           =   39
    End
+   Begin Timer AnimationTimer
+      Enabled         =   True
+      Index           =   -2147483648
+      LockedInPosition=   False
+      Period          =   0
+      RunMode         =   0
+      Scope           =   0
+      TabPanelIndex   =   0
+   End
 End
 #tag EndDesktopWindow
 
@@ -149,19 +158,26 @@ End
 		Sub Opening()
 		  ' Initialize data
 		  Self.BarColors = Array(Red, Orange, Yellow, Green, Blue, Magenta)
-		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60)
+		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 10, 12)
 		  
 		  ' Initialize VelocitySlider
 		  Self.VelocitySlider.MinimumValue = 0
 		  Self.VelocitySlider.MaximumValue = Self.Velocities.Count - 1
 		  Self.VelocitySlider.Value = 0
 		  
-		  ' Initialize Canvas
-		  Me.MouseCursor = System.Cursors.FingerPointer
 		  
 		End Sub
 	#tag EndEvent
 
+
+	#tag Method, Flags = &h0
+		Sub IncrementColor()
+		  Self.FirstColorIndex = (Self.FirstColorIndex + 1) Mod Self.BarColors.Count
+		  
+		  Self.MainCanvas.Refresh
+		  
+		End Sub
+	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub PaintCanvas(g As Graphics, areas() As Rect)
@@ -173,7 +189,7 @@ End
 		  
 		  ' Draw all the bars
 		  For i As Integer = 0 To barCount - 1
-		    Var colorIndex As Integer = i Mod colorCount
+		    Var colorIndex As Integer = (Self.FirstColorIndex + i) Mod colorCount
 		    
 		    g.DrawingColor = Self.BarColors(colorIndex)
 		    g.FillRectangle(i * barWidth, 0, barWidth, barHeight)
@@ -190,12 +206,25 @@ End
 		  ' Update the VelocityValueLabel text
 		  Self.VelocityValueLabel.Text = Str(Self.Fps) + " fps"
 		  
+		  ' Update AnimationTimer
+		  Select Case Self.Fps
+		  Case 0
+		    Self.AnimationTimer.RunMode = Timer.RunModes.Off
+		  Else
+		    Self.AnimationTimer.RunMode = Timer.RunModes.Multiple
+		    Self.AnimationTimer.Period = 1000 \ Self.Fps
+		  End Select
+		  
 		End Sub
 	#tag EndMethod
 
 
 	#tag Property, Flags = &h0
 		BarColors() As Color
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		FirstColorIndex As Integer = 0
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -241,6 +270,17 @@ End
 		  
 		End Sub
 	#tag EndEvent
+	#tag Event
+		Function MouseDown(x As Integer, y As Integer) As Boolean
+		  
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub Opening()
+		  Me.MouseCursor = System.Cursors.FingerPointer
+		  
+		End Sub
+	#tag EndEvent
 #tag EndEvents
 #tag Events VelocitySlider
 	#tag Event
@@ -259,6 +299,14 @@ End
 		    Call setAllowsTickMarkValuesOnly(Me.Handle, True)
 		    
 		  #EndIf
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events AnimationTimer
+	#tag Event
+		Sub Action()
+		  Self.IncrementColor
 		  
 		End Sub
 	#tag EndEvent
