@@ -10,6 +10,7 @@ Inherits DesktopControl
 		  Self.NoteTimer = New Timer
 		  Self.NoteTimer.RunMode = Timer.RunModes.Off
 		  Self.NoteTimer.Period = 0
+		  AddHandler Self.NoteTimer.Action, AddressOf StopNote
 		  
 		End Sub
 	#tag EndEvent
@@ -17,6 +18,8 @@ Inherits DesktopControl
 
 	#tag Method, Flags = &h0
 		Sub PlayNote(pitch As Integer, velocity As Integer, length As Integer)
+		  Self.StopNote(Self.NoteTimer)
+		  
 		  Self.Pitch = pitch
 		  
 		  Self.MidiNotePlayer.PlayNote(Self.Pitch, velocity)
@@ -30,6 +33,13 @@ Inherits DesktopControl
 	#tag Method, Flags = &h0
 		Sub SetInstrument(instrument As MidiVoice.Instrument)
 		  Self.MidiNotePlayer.Instrument = Integer(instrument)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub StopNote(sender As Timer)
+		  Self.MidiNotePlayer.PlayNote(Self.Pitch, 0)
 		  
 		End Sub
 	#tag EndMethod
