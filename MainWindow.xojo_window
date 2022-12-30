@@ -48,6 +48,35 @@ Begin DesktopWindow MainWindow
       Transparent     =   True
       Visible         =   True
       Width           =   600
+      Begin MidiVoice MidiTicker
+         AllowAutoDeactivate=   True
+         AllowFocus      =   False
+         AllowFocusRing  =   False
+         AllowTabs       =   False
+         Backdrop        =   0
+         BackgroundColor =   &cFFFFFF
+         Composited      =   False
+         Enabled         =   True
+         HasBackgroundColor=   False
+         Height          =   300
+         Index           =   -2147483648
+         InitialParent   =   "MainCanvas"
+         Left            =   150
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         Scope           =   2
+         TabIndex        =   0
+         TabPanelIndex   =   0
+         TabStop         =   True
+         Tooltip         =   ""
+         Top             =   73
+         Transparent     =   False
+         Visible         =   False
+         Width           =   300
+      End
    End
    Begin DesktopLabel VelocityLabel
       AllowAutoDeactivate=   True
@@ -158,12 +187,15 @@ End
 		Sub Opening()
 		  ' Initialize data
 		  Self.BarColors = Array(Red, Orange, Yellow, Green, Blue, Magenta)
-		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 10, 12)
+		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24)
 		  
 		  ' Initialize VelocitySlider
 		  Self.VelocitySlider.MinimumValue = 0
 		  Self.VelocitySlider.MaximumValue = Self.Velocities.Count - 1
 		  Self.VelocitySlider.Value = 0
+		  
+		  ' Initialize MidiTicker
+		  Self.MidiTicker.SetInstrument(MidiVoice.Instrument.Woodblock)
 		  
 		  
 		End Sub
@@ -172,9 +204,15 @@ End
 
 	#tag Method, Flags = &h0
 		Sub IncrementColor()
+		  ' Rotate to next color
 		  Self.FirstColorIndex = (Self.FirstColorIndex + 1) Mod Self.BarColors.Count
 		  
+		  ' Redraw the canvas
 		  Self.MainCanvas.Refresh
+		  
+		  ' Play a tick
+		  Var pitch As Integer = System.Random.InRange(52, 53)
+		  Self.MidiTicker.PlayNote(pitch, 50, 80)
 		  
 		End Sub
 	#tag EndMethod
@@ -182,7 +220,7 @@ End
 	#tag Method, Flags = &h0
 		Sub PaintCanvas(g As Graphics, areas() As Rect)
 		  Var colorCount As Integer = Self.BarColors.Count
-		  Var defaultBarWidth As Integer = g.Width \ colorCount
+		  Var defaultBarWidth As Integer = Ceiling(g.Width / colorCount)
 		  Var barWidth As Integer = Math.Clamp(defaultBarWidth, Self.MinBarWidth, Self.MaxBarWidth)
 		  Var barHeight As Integer = g.Height
 		  Var barCount As Integer = Ceiling( g.Width / barWidth)
@@ -546,6 +584,22 @@ End
 		Group="Deprecated"
 		InitialValue="False"
 		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="FirstColorIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Fps"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
 		EditorType=""
 	#tag EndViewProperty
 #tag EndViewBehavior
