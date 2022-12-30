@@ -48,35 +48,6 @@ Begin DesktopWindow MainWindow
       Transparent     =   True
       Visible         =   True
       Width           =   600
-      Begin MidiVoice MidiTicker
-         AllowAutoDeactivate=   True
-         AllowFocus      =   False
-         AllowFocusRing  =   False
-         AllowTabs       =   False
-         Backdrop        =   0
-         BackgroundColor =   &cFFFFFF
-         Composited      =   False
-         Enabled         =   True
-         HasBackgroundColor=   False
-         Height          =   300
-         Index           =   -2147483648
-         InitialParent   =   "MainCanvas"
-         Left            =   150
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   True
-         Scope           =   2
-         TabIndex        =   0
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Tooltip         =   ""
-         Top             =   73
-         Transparent     =   False
-         Visible         =   False
-         Width           =   300
-      End
    End
    Begin DesktopLabel VelocityLabel
       AllowAutoDeactivate=   True
@@ -176,6 +147,12 @@ Begin DesktopWindow MainWindow
       LockedInPosition=   False
       Period          =   0
       RunMode         =   0
+      Scope           =   0
+      TabPanelIndex   =   0
+   End
+   Begin MidiVoice MidiTicker
+      Index           =   -2147483648
+      LockedInPosition=   False
       Scope           =   0
       TabPanelIndex   =   0
    End
