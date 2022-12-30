@@ -152,9 +152,14 @@ Begin DesktopWindow MainWindow
    End
    Begin MidiVoice MidiTicker
       Index           =   -2147483648
+      Instrument      =   116
       LockedInPosition=   False
       Scope           =   0
       TabPanelIndex   =   0
+      _mIndex         =   0
+      _mInitialParent =   ""
+      _mName          =   ""
+      _mPanelIndex    =   0
    End
 End
 #tag EndDesktopWindow
@@ -171,10 +176,6 @@ End
 		  Self.VelocitySlider.MaximumValue = Self.Velocities.Count - 1
 		  Self.VelocitySlider.Value = 0
 		  
-		  ' Initialize MidiTicker
-		  Self.MidiTicker.SetInstrument(MidiVoice.Instrument.Woodblock)
-		  
-		  
 		End Sub
 	#tag EndEvent
 
@@ -189,7 +190,8 @@ End
 		  
 		  ' Play a tick
 		  Var pitch As Integer = System.Random.InRange(52, 53)
-		  Self.MidiTicker.PlayNote(pitch, 50, 80)
+		  Var noteVelocity As Integer = System.Random.InRange(40, 60)
+		  Self.MidiTicker.PlayNote(pitch, noteVelocity, 80)
 		  
 		End Sub
 	#tag EndMethod

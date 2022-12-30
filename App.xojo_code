@@ -10,9 +10,6 @@ Inherits DesktopApplication
 	#tag EndEvent
 
 
-	#tag Constant, Name = AnimationTitle, Type = String, Dynamic = False, Default = \"&Animation", Scope = Public
-	#tag EndConstant
-
 	#tag Constant, Name = FileAboutTitle, Type = String, Dynamic = False, Default = \"&About...", Scope = Public
 	#tag EndConstant
 

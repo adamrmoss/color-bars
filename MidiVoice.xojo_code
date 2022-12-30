@@ -22,17 +22,11 @@ Inherits DesktopControl
 		  
 		  Self.Pitch = pitch
 		  
+		  Self.MidiNotePlayer.Instrument = Self.Instrument
 		  Self.MidiNotePlayer.PlayNote(Self.Pitch, velocity)
 		  
 		  Self.NoteTimer.Period = length
 		  Self.NoteTimer.RunMode = Timer.RunModes.Single
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub SetInstrument(instrument As MidiVoice.Instrument)
-		  Self.MidiNotePlayer.Instrument = Integer(instrument)
 		  
 		End Sub
 	#tag EndMethod
@@ -44,6 +38,10 @@ Inherits DesktopControl
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		Instrument As Integer = 1
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private MidiNotePlayer As DesktopNotePlayer
@@ -58,7 +56,7 @@ Inherits DesktopControl
 	#tag EndProperty
 
 
-	#tag Enum, Name = Instrument, Type = Integer, Flags = &h0
+	#tag Enum, Name = MidiInstrument, Type = Integer, Flags = &h0
 		AcousticGrandPiano=1
 		  BrightAcousticPiano=2
 		  ElectricGrandPiano=3
@@ -201,14 +199,6 @@ Inherits DesktopControl
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Left"
-			Visible=true
-			Group="Position"
-			InitialValue="0"
-			Type="Integer"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
@@ -225,12 +215,159 @@ Inherits DesktopControl
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Top"
-			Visible=true
+			Name="Left"
+			Visible=false
 			Group="Position"
-			InitialValue="0"
+			InitialValue=""
 			Type="Integer"
 			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=false
+			Group="Position"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Instrument"
+			Visible=true
+			Group="Behavior"
+			InitialValue="1"
+			Type="Integer"
+			EditorType="Enum"
+			#tag EnumValues
+				"1 - AcousticGrandPiano"
+				"2 - BrightAcousticPiano"
+				"3 - ElectricGrandPiano"
+				"4 - HonkyTonkPiano"
+				"5 - RhodesPiano"
+				"6 - ChorusedPiano"
+				"7 - Harpsichord"
+				"8 - Clavinet"
+				"9 - Celesta"
+				"10 - Glockenspiel"
+				"11 - MusicBox"
+				"12 - Vibraphone"
+				"13 - Marimba"
+				"14 - Xylophone"
+				"15 - TubularBells"
+				"16 - Dulcimer"
+				"17 - DrawOrgan"
+				"18 - PercussiveOrgan"
+				"19 - RockOrgan"
+				"20 - ChurchOrgan"
+				"21 - ReedOrgan"
+				"22 - Accordion"
+				"23 - Harmonica"
+				"24 - TangoAccordion"
+				"25 - AcousticNylonGuitar"
+				"26 - AcousticSteelGuitar"
+				"27 - ElectricJazzGuitar"
+				"28 - CleanElectricGuitar"
+				"29 - MutedElectricGuitar"
+				"30 - OverdrivenGuitar"
+				"31 - DistortionGuitar"
+				"32 - GuitarHarmonics"
+				"33 - WoodBass"
+				"34 - FingeredElectricBass"
+				"35 - PickedElectricBass"
+				"36 - FretlessBass"
+				"37 - SlapBass1"
+				"38 - SlapBass2"
+				"39 - SynthBass1"
+				"40 - SynthBass2"
+				"41 - Violin"
+				"42 - Viola"
+				"43 - Cello"
+				"44 - Contrabass"
+				"45 - TremoloStrings"
+				"46 - PizzicatoStrings"
+				"47 - OrchestralHarp"
+				"48 - Timpani"
+				"49 - AcousticStringEnsemble1"
+				"50 - AcousticStringEnsemble2"
+				"51 - SynthStrings1"
+				"52 - SynthStrings2"
+				"53 - AahChoir"
+				"54 - OohChoir"
+				"55 - Synvox"
+				"56 - OrchestraHit"
+				"57 - Trumpet"
+				"58 - Trombone"
+				"59 - Tuba"
+				"60 - MutedTrumpet"
+				"61 - FrenchHorn"
+				"62 - BrassSection"
+				"63 - SynthBrass1"
+				"64 - SynthBrass2"
+				"65 - SopranoSax"
+				"66 - AltoSax"
+				"67 - TenorSax"
+				"68 - BaritoneSax"
+				"69 - Oboe"
+				"70 - EnglishHorn"
+				"71 - Bassoon"
+				"72 - Clarinet"
+				"73 - Piccolo"
+				"74 - Flute"
+				"75 - Recorder"
+				"76 - PanFlute"
+				"77 - BottleBlow"
+				"78 - Shakuhachi"
+				"79 - Whistle"
+				"80 - Ocarina"
+				"81 - SquareLead"
+				"82 - SawLead"
+				"83 - Calliope"
+				"84 - Chiffer"
+				"85 - SynthLead5"
+				"86 - SynthLead6"
+				"87 - SynthLead7"
+				"88 - SynthLead8"
+				"89 - SynthPad1"
+				"90 - SynthPad2"
+				"91 - SynthPad3"
+				"92 - SynthPad4"
+				"93 - SynthPad5"
+				"94 - SynthPad6"
+				"95 - SynthPad7"
+				"96 - SynthPad8"
+				"97 - IceRain"
+				"98 - Soundtracks"
+				"99 - Crystal"
+				"100 - Atmosphere"
+				"101 - Bright"
+				"102 - Goblin"
+				"103 - Echoes"
+				"104 - Space"
+				"105 - Sitar"
+				"106 - Banjo"
+				"107 - Shamisen"
+				"108 - Koto"
+				"109 - Kalimba"
+				"110 - Bagpipe"
+				"111 - Fiddle"
+				"112 - Shanai"
+				"113 - TinkleBell"
+				"114 - Agogo"
+				"115 - SteelDrums"
+				"116 - Woodblock"
+				"117 - TaikoDrum"
+				"118 - MelodicTom"
+				"119 - SynthTom"
+				"120 - ReverseCymbal"
+				"121 - GuitarFretNoise"
+				"122 - BreathNoise"
+				"123 - Seashore"
+				"124 - BirdTweet"
+				"125 - TelephoneRing"
+				"126 - Helicopter"
+				"127 - Applause"
+				"128 - GunshotTable"
+				"16385 - DrumKit"
+			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="_mIndex"

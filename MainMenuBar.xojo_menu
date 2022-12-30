@@ -27,21 +27,5 @@ Begin Menu MainMenuBar
          Visible = True
       End
    End
-   Begin DesktopMenuItem AnimationMenu
-      SpecialMenu = 0
-      Index = -2147483648
-      Text = "#App.AnimationTitle"
-      AutoEnabled = True
-      AutoEnable = True
-      Visible = True
-      Begin DesktopMenuItem Animation
-         SpecialMenu = 0
-         Index = -2147483648
-         Text = "Untitled"
-         AutoEnabled = True
-         AutoEnable = True
-         Visible = True
-      End
-   End
 End
 #tag EndMenu
