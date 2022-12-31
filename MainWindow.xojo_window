@@ -161,6 +161,13 @@ Begin DesktopWindow MainWindow
       _mName          =   ""
       _mPanelIndex    =   0
    End
+   Begin MidiVoice MidiDinger
+      Index           =   -2147483648
+      Instrument      =   46
+      LockedInPosition=   False
+      Scope           =   0
+      TabPanelIndex   =   0
+   End
 End
 #tag EndDesktopWindow
 
@@ -170,6 +177,8 @@ End
 		  ' Initialize data
 		  Self.BarColors = Array(Red, Orange, Yellow, Green, Blue, Magenta)
 		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 30)
+		  Self.TickerPitches = Array(52, 57, 64)
+		  Self.DingerPitches = Array(52, 53, 57, 59, 60, 64, 65, 69, 71, 72, 76, 77)
 		  
 		  ' Initialize VelocitySlider
 		  Self.VelocitySlider.MinimumValue = 0
@@ -196,7 +205,7 @@ End
 		  Self.MainCanvas.Refresh
 		  
 		  ' Play a tick
-		  Var pitch As Integer = System.Random.InRange(52, 53)
+		  Var pitch As Integer = Self.TickerPitches(System.Random.LessThan(Self.TickerPitches.Count))
 		  Var noteVelocity As Integer = System.Random.InRange(40, 60)
 		  Self.MidiTicker.PlayNote(pitch, noteVelocity, 80)
 		  
@@ -210,6 +219,11 @@ End
 		  
 		  ' Redraw the canvas
 		  Self.MainCanvas.Refresh
+		  
+		  ' Play a ding
+		  Var pitch As Integer = Self.DingerPitches(System.Random.LessThan(Self.DingerPitches.Count))
+		  Var noteVelocity As Integer = System.Random.InRange(40, 60)
+		  Self.MidiDinger.PlayNote(pitch, noteVelocity, 1000)
 		  
 		End Sub
 	#tag EndMethod
@@ -293,6 +307,10 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private DingerPitches() As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private Direction As MainWindow.AnimationDirection = MainWindow.AnimationDirection.LeftToRight
 	#tag EndProperty
 
@@ -302,6 +320,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private Fps As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private TickerPitches() As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
