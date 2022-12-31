@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UUID</key>
+	<string>B5D7221E-49DD-4411-8CC0-E01E871308AA</string>
+	<key>appInfo</key>
+	<dict>
+		<key>build</key>
+		<real>0.0</real>
+		<key>formatIdentifier</key>
+		<integer>3</integer>
+		<key>version</key>
+		<string>4.5 (223)</string>
+	</dict>
+	<key>bundleContents</key>
+	<array/>
+	<key>channel</key>
+	<integer>1</integer>
+	<key>cleaning</key>
+	<dict>
+		<key>allowedArchitecturesAppStore</key>
+		<string>x86_64 arm64</string>
+		<key>allowedArchitecturesWeb</key>
+		<string>i386 x86_64 arm64</string>
+		<key>languagePacksProtectAppleHelpBooks</key>
+		<true/>
+	</dict>
+	<key>codesigning</key>
+	<dict>
+		<key>appSandbox</key>
+		<integer>10</integer>
+		<key>generalOptions</key>
+		<integer>32</integer>
+		<key>hardenRuntime</key>
+		<integer>1</integer>
+		<key>team</key>
+		<string>{"name":"Adam R Moss","ID":"J832XFB3QY"}</string>
+	</dict>
+	<key>contentOptions</key>
+	<integer>0</integer>
+	<key>destination</key>
+	<dict>
+		<key>options</key>
+		<integer>3</integer>
+		<key>path</key>
+		<string>/Users/amoss/Desktop</string>
+		<key>subFolderName</key>
+		<string>$(bundleName) - $(channel) ($(bundleArch))</string>
+	</dict>
+	<key>entitlements</key>
+	<dict/>
+	<key>entitlementsDebugging</key>
+	<dict/>
+	<key>entitlementsInherited</key>
+	<dict>
+		<key>com.apple.security.app-sandbox</key>
+		<true/>
+		<key>com.apple.security.inherit</key>
+		<true/>
+	</dict>
+	<key>info.plist</key>
+	<dict>
+		<key>NSHumanReadableCopyright</key>
+		<string>©$(dateYear) $(publisher)
+All rights reserved</string>
+		<key>OWARPublisherName</key>
+		<string>$(certDeveloperName)</string>
+	</dict>
+	<key>packing</key>
+	<dict>
+		<key>destinationOptions</key>
+		<integer>1</integer>
+		<key>destinationPath</key>
+		<string>/Users/amoss/Desktop</string>
+		<key>formats</key>
+		<integer>2</integer>
+		<key>nameCleaningReplacementChar</key>
+		<string>_</string>
+		<key>packageName</key>
+		<string>$(bundleName) $(bundleVerString)</string>
+	</dict>
+	<key>profiles</key>
+	<dict>
+		<key>channels</key>
+		<integer>11</integer>
+	</dict>
+	<key>singleFileOptions</key>
+	<dict/>
+	<key>submission</key>
+	<dict>
+		<key>appleSubmissionAccountID</key>
+		<string>6E3670B8-1462-49EF-B265-2FC8ED6CD7A0</string>
+		<key>autoSubmit</key>
+		<integer>1</integer>
+	</dict>
+	<key>versionNumberCustomFormat</key>
+	<string>$1.$2.$3	$1.$2.$3</string>
+	<key>versionNumberFormat</key>
+	<integer>0</integer>
+	<key>wrappingAdditional</key>
+	<string></string>
+</dict>
+</plist>

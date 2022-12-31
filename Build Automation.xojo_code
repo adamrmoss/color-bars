@@ -7,7 +7,7 @@
 				Begin BuildProjectStep Build
 				End
 				Begin SignProjectStep Sign
-				  DeveloperID=
+				  DeveloperID=J832XFB3QY
 				End
 			End
 			Begin BuildStepList Windows
