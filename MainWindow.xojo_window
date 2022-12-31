@@ -169,21 +169,28 @@ End
 		Sub Opening()
 		  ' Initialize data
 		  Self.BarColors = Array(Red, Orange, Yellow, Green, Blue, Magenta)
-		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24)
+		  Self.Velocities = Array(0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 30)
 		  
 		  ' Initialize VelocitySlider
 		  Self.VelocitySlider.MinimumValue = 0
 		  Self.VelocitySlider.MaximumValue = Self.Velocities.Count - 1
 		  Self.VelocitySlider.Value = 0
 		  
+		  ' For MacOS, we need to disable to File menu
+		  #If targetCocoa
+		    
+		    Self.MenuBar.Child("FileMenu").Visible = False
+		    
+		  #EndIf
+		  
 		End Sub
 	#tag EndEvent
 
 
-	#tag Method, Flags = &h0
-		Sub IncrementColor()
+	#tag Method, Flags = &h21
+		Private Sub IncrementColor()
 		  ' Rotate to next color
-		  Self.FirstColorIndex = (Self.FirstColorIndex + 1) Mod Self.BarColors.Count
+		  Self.FirstColorIndex = (Self.FirstColorIndex + Self.BarColors.Count - 1) Mod Self.BarColors.Count
 		  
 		  ' Redraw the canvas
 		  Self.MainCanvas.Refresh
@@ -196,27 +203,68 @@ End
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub PaintCanvas(g As Graphics, areas() As Rect)
+	#tag Method, Flags = &h21
+		Private Sub IncrementDirection()
+		  ' Rotate to next direction
+		  Self.Direction = AnimationDirection((Integer(Self.Direction) + 1) Mod 4)
+		  
+		  ' Redraw the canvas
+		  Self.MainCanvas.Refresh
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub PaintCanvas(g As Graphics, areas() As Rect)
 		  Var colorCount As Integer = Self.BarColors.Count
-		  Var defaultBarWidth As Integer = Ceiling(g.Width / colorCount)
-		  Var barWidth As Integer = Math.Clamp(defaultBarWidth, Self.MinBarWidth, Self.MaxBarWidth)
-		  Var barHeight As Integer = g.Height
-		  Var barCount As Integer = Ceiling( g.Width / barWidth)
+		  
+		  ' Get window dimensions based on direction
+		  Var windowBreadth, windowDepth As Integer
+		  Select Case Self.Direction
+		  Case AnimationDirection.LeftToRight, AnimationDirection.RightToLeft
+		    windowBreadth = g.Width
+		    windowDepth = g.Height
+		  Case AnimationDirection.TopToBottom, AnimationDirection.BottomToTop
+		    windowBreadth = g.Height
+		    windowDepth = g.Width
+		  End Select
+		  
+		  ' Get Breadth and count of bars
+		  Var defaultBarBreadth As Integer = Ceiling(windowBreadth / colorCount)
+		  Var barBreadth As Integer = Math.Clamp(defaultBarBreadth, Self.MinBarBreadth, Self.MaxBarBreadth)
+		  Var barCount As Integer = Ceiling(windowBreadth / BarBreadth)
 		  
 		  ' Draw all the bars
 		  For i As Integer = 0 To barCount - 1
-		    Var colorIndex As Integer = (Self.FirstColorIndex + i) Mod colorCount
 		    
+		    ' Increment colorIndex (with wraparound) and lookup color
+		    Var colorIndex As Integer = (Self.FirstColorIndex + i) Mod colorCount
 		    g.DrawingColor = Self.BarColors(colorIndex)
-		    g.FillRectangle(i * barWidth, 0, barWidth, barHeight)
+		    
+		    ' Draw bar, taking direction into account
+		    Select Case Self.Direction
+		      
+		    Case AnimationDirection.LeftToRight
+		      g.FillRectangle(i * BarBreadth, 0, barBreadth, windowDepth)
+		      
+		    Case AnimationDirection.RightToLeft
+		      g.FillRectangle(windowBreadth - (i + 1) * BarBreadth, 0, barBreadth, windowDepth)
+		      
+		    Case AnimationDirection.TopToBottom
+		      g.FillRectangle(0, i * BarBreadth, windowDepth, barBreadth)
+		      
+		    Case AnimationDirection.BottomToTop
+		      g.FillRectangle(0, windowBreadth - (i + 1) * BarBreadth, windowDepth, barBreadth)
+		      
+		    End Select
+		    
 		  Next i
 		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub SetVelocity(index As Integer)
+	#tag Method, Flags = &h21
+		Private Sub SetVelocity(index As Integer)
 		  ' Lookup the FPS at index
 		  Self.Fps = Self.Velocities(index)
 		  
@@ -227,29 +275,37 @@ End
 		  Select Case Self.Fps
 		  Case 0
 		    Self.AnimationTimer.RunMode = Timer.RunModes.Off
+		    Self.AnimationTimer.Period = 0
 		  Else
 		    Self.AnimationTimer.RunMode = Timer.RunModes.Multiple
 		    Self.AnimationTimer.Period = 1000 \ Self.Fps
+		    
+		    ' Tick to next color if non-zero framerate
+		    IncrementColor
 		  End Select
 		  
 		End Sub
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h0
-		BarColors() As Color
+	#tag Property, Flags = &h21
+		Private BarColors() As Color
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		FirstColorIndex As Integer = 0
+	#tag Property, Flags = &h21
+		Private Direction As MainWindow.AnimationDirection = MainWindow.AnimationDirection.LeftToRight
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		Fps As Integer
+	#tag Property, Flags = &h21
+		Private FirstColorIndex As Integer = 0
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		Velocities() As Integer
+	#tag Property, Flags = &h21
+		Private Fps As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private Velocities() As Integer
 	#tag EndProperty
 
 
@@ -262,10 +318,10 @@ End
 	#tag Constant, Name = Magenta, Type = Color, Dynamic = False, Default = \"&cff00d9", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = MaxBarWidth, Type = Double, Dynamic = False, Default = \"120", Scope = Public
+	#tag Constant, Name = MaxBarBreadth, Type = Double, Dynamic = False, Default = \"120", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = MinBarWidth, Type = Double, Dynamic = False, Default = \"60", Scope = Public
+	#tag Constant, Name = MinBarBreadth, Type = Double, Dynamic = False, Default = \"60", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = Orange, Type = Color, Dynamic = False, Default = \"&cff6f00", Scope = Public
@@ -276,6 +332,14 @@ End
 
 	#tag Constant, Name = Yellow, Type = Color, Dynamic = False, Default = \"&cffd400", Scope = Public
 	#tag EndConstant
+
+
+	#tag Enum, Name = AnimationDirection, Type = Integer, Flags = &h0
+		LeftToRight=0
+		  TopToBottom=1
+		  RightToLeft=2
+		BottomToTop=3
+	#tag EndEnum
 
 
 #tag EndWindowCode
@@ -289,6 +353,7 @@ End
 	#tag EndEvent
 	#tag Event
 		Function MouseDown(x As Integer, y As Integer) As Boolean
+		  Self.IncrementDirection
 		  
 		End Function
 	#tag EndEvent
