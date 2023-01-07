@@ -10,7 +10,7 @@ Begin DesktopWindow MainWindow
    HasFullScreenButton=   True
    HasMaximizeButton=   True
    HasMinimizeButton=   True
-   Height          =   400
+   Height          =   782
    ImplicitInstance=   True
    MacProcID       =   0
    MaximumHeight   =   32000
@@ -23,7 +23,7 @@ Begin DesktopWindow MainWindow
    Title           =   "Color Bars"
    Type            =   0
    Visible         =   True
-   Width           =   600
+   Width           =   720
    Begin DesktopCanvas MainCanvas
       AllowAutoDeactivate=   True
       AllowFocus      =   False
@@ -31,7 +31,7 @@ Begin DesktopWindow MainWindow
       AllowTabs       =   False
       Backdrop        =   0
       Enabled         =   True
-      Height          =   338
+      Height          =   720
       Index           =   -2147483648
       Left            =   0
       LockBottom      =   True
@@ -47,7 +47,7 @@ Begin DesktopWindow MainWindow
       Top             =   62
       Transparent     =   True
       Visible         =   True
-      Width           =   600
+      Width           =   720
    End
    Begin DesktopLabel VelocityLabel
       AllowAutoDeactivate=   True
@@ -107,7 +107,7 @@ Begin DesktopWindow MainWindow
       Transparent     =   False
       Value           =   0
       Visible         =   True
-      Width           =   453
+      Width           =   573
    End
    Begin DesktopLabel VelocityValueLabel
       AllowAutoDeactivate=   True
@@ -119,7 +119,7 @@ Begin DesktopWindow MainWindow
       Height          =   30
       Index           =   -2147483648
       Italic          =   False
-      Left            =   541
+      Left            =   661
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   False
@@ -127,7 +127,7 @@ Begin DesktopWindow MainWindow
       LockTop         =   True
       Multiline       =   False
       Scope           =   0
-      Selectable      =   False
+      Selectable      =   True
       TabIndex        =   2
       TabPanelIndex   =   0
       TabStop         =   True
@@ -167,6 +167,10 @@ Begin DesktopWindow MainWindow
       LockedInPosition=   False
       Scope           =   0
       TabPanelIndex   =   0
+      _mIndex         =   0
+      _mInitialParent =   ""
+      _mName          =   ""
+      _mPanelIndex    =   0
    End
 End
 #tag EndDesktopWindow
@@ -206,7 +210,7 @@ End
 		  
 		  ' Play a tick
 		  Var pitch As Integer = Self.TickerPitches(System.Random.LessThan(Self.TickerPitches.Count))
-		  Var noteVelocity As Integer = System.Random.InRange(40, 60)
+		  Var noteVelocity As Integer = System.Random.InRange(30, 45)
 		  Self.MidiTicker.PlayNote(pitch, noteVelocity, 80)
 		  
 		End Sub
@@ -222,7 +226,7 @@ End
 		  
 		  ' Play a ding
 		  Var pitch As Integer = Self.DingerPitches(System.Random.LessThan(Self.DingerPitches.Count))
-		  Var noteVelocity As Integer = System.Random.InRange(40, 60)
+		  Var noteVelocity As Integer = System.Random.InRange(50, 75)
 		  Self.MidiDinger.PlayNote(pitch, noteVelocity, 1000)
 		  
 		End Sub
@@ -650,22 +654,6 @@ End
 		Group="Deprecated"
 		InitialValue="False"
 		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="FirstColorIndex"
-		Visible=false
-		Group="Behavior"
-		InitialValue="0"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Fps"
-		Visible=false
-		Group="Behavior"
-		InitialValue=""
-		Type="Integer"
 		EditorType=""
 	#tag EndViewProperty
 #tag EndViewBehavior

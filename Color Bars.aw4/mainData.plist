@@ -42,7 +42,7 @@
 	<key>destination</key>
 	<dict>
 		<key>options</key>
-		<integer>3</integer>
+		<integer>0</integer>
 		<key>path</key>
 		<string>/Users/amoss/Desktop</string>
 		<key>subFolderName</key>
