@@ -192,7 +192,8 @@ End
 		  ' For MacOS, we need to disable to File menu
 		  #If targetCocoa
 		    
-		    Self.MenuBar.Child("FileMenu").Visible = False
+		    Var fileMenuItem As DesktopMenuItem = Self.MenuBar.Child("FileMenu")
+		    fileMenuItem.Visible = False
 		    
 		  #EndIf
 		  
@@ -211,7 +212,7 @@ End
 		  ' Play a tick
 		  Var pitch As Integer = Self.TickerPitches(System.Random.LessThan(Self.TickerPitches.Count))
 		  Var noteVelocity As Integer = System.Random.InRange(30, 45)
-		  Self.MidiTicker.PlayNote(pitch, noteVelocity, 80)
+		  Self.MidiTicker.PlayNote(pitch, noteVelocity, 120)
 		  
 		End Sub
 	#tag EndMethod
