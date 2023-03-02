@@ -44,7 +44,7 @@
 		<key>options</key>
 		<integer>0</integer>
 		<key>path</key>
-		<string>/Users/amoss/Desktop</string>
+		<string>/Users/amoss/Projects/game-dev-xojo/deliverables</string>
 		<key>subFolderName</key>
 		<string>$(bundleName) - $(channel) ($(bundleArch))</string>
 	</dict>
@@ -66,13 +66,15 @@
 All rights reserved</string>
 		<key>OWARPublisherName</key>
 		<string>$(certDeveloperName)</string>
+		<key>OWARPublisherURL</key>
+		<string>https://www.professor-moss.com</string>
 	</dict>
 	<key>packing</key>
 	<dict>
 		<key>destinationOptions</key>
 		<integer>1</integer>
 		<key>destinationPath</key>
-		<string>/Users/amoss/Desktop</string>
+		<string>/Users/amoss/Projects/game-dev-xojo/deliverables</string>
 		<key>formats</key>
 		<integer>2</integer>
 		<key>nameCleaningReplacementChar</key>
